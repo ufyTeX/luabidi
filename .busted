@@ -1,0 +1,14 @@
+return {
+  _all = {
+    coverage = true,
+    verbose = true,
+    lpath="./src/?.lua;./src/?/?.lua;./src/?/init.lua;./ucd/?.lua",
+    ROOT = { "spec" }
+  },
+  default = {
+    ["exclude-tags"] = "ucd"
+  },
+  ucd = {
+    tags = "ucd"
+  }
+}
