@@ -1,6 +1,28 @@
 local ucdn = require("ucdn")
 local LinkedList = require("bidi.LinkedList")
 
+-- This file contains a port of the reference implementation of the
+-- Bidi Parentheses Algorithm:
+-- http://www.unicode.org/Public/PROGRAMS/BidiReferenceJava/BidiPBAReference.java
+--
+-- The implementation in this file covers definitions BD14-BD16 and rule N0
+-- of UAX#9.
+--
+-- Some preprocessing is done for each rune before data is passed to this
+-- algorithm:
+--  - opening and closing brackets are identified
+--  - a bracket pair type, like '(' and ')' is assigned a unique identifier that
+--    is identical for the opening and closing bracket. It is left to do these
+--    mappings.
+--  - The BPA algorithm requires that bracket characters that are canonical
+--    equivalents of each other be able to be substituted for each other.
+--    It is the responsibility of the caller to do this canonicalization.
+--
+-- In implementing BD16, this implementation departs slightly from the "logical"
+-- algorithm defined in UAX#9. In particular, the stack referenced there
+-- supports operations that go beyond a "basic" stack. An equivalent
+-- implementation based on a linked list is used here.
+
 local L  = ucdn.UCDN_BIDI_CLASS_L
 local R  = ucdn.UCDN_BIDI_CLASS_R
 local ON = ucdn.UCDN_BIDI_CLASS_ON
