@@ -42,7 +42,7 @@ local function removeNode(list, node)
 	end
 
 	if(nextN ~= nil) then
-		nextN.prev = prev
+		nextN.prev = prevN
 	else
 	    -- The node was at the tail
 	    list.tail = prevN
@@ -53,50 +53,6 @@ local function removeNode(list, node)
 	node:setData(nil)
 
 	list.count = list.count - 1
-end
-
--- Inserts a node before the reference
-local function insertNodeBefore(list, node, referenceNode)
-	-- Setup the node
-	local before = referenceNode.prev
-	if(before ~= nil) then
-		before.next = node
-	end
-	node.prev = before
-	node.next = referenceNode
-	referenceNode.prev = node
-
-	list.count = list.count + 1  
-end
-
-
--- Inserts a node after the reference
-local function insertNodeAfter(node, referenceNode)
-	local after = referenceNode.next
-
-	if(after ~= nil) then
-		after.prev = node
-	end
-
-	node.next = after
-	node.prev = referenceNode
-
-	referenceNode.next = node
-
-end
-
-
-local function insertNodeBetween(node, leftNode, rightNode)
-
-end
-
-----------------------------------------------------------------
--- Returns the list's first node
---
--- @return **(LNode)** The first node or nil
-----------------------------------------------------------------
-function LinkedList:getHead()
-	return self.head
 end
 
 ----------------------------------------------------------------
