@@ -13,7 +13,7 @@ luarocks install luabidi
 
 ## Quickstart
 
-```
+```lua
 local bidi = require('bidi')
 local serpent  = require('serpent') -- luarocks install serpent
 
