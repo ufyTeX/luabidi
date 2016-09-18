@@ -56,6 +56,15 @@ local function removeNode(list, node)
 end
 
 ----------------------------------------------------------------
+-- Returns the list's first node
+--
+-- @return **(LNode)** The first node or nil
+----------------------------------------------------------------
+function LinkedList:getHead()
+	return self.head
+end
+
+----------------------------------------------------------------
 -- Returns the last node
 --
 -- @return **(LNode)** The last node or nil
