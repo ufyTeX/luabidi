@@ -1,7 +1,7 @@
 package = "luabidi"
 version = "0.0.1-0"
 source = {
-  url = "https://github.com/deepakjois/luabidi",
+  url = "git://github.com/deepakjois/luabidi.git",
   tag = "v0.0.1"
 }
 description = {
