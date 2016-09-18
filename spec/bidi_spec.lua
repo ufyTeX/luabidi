@@ -71,4 +71,15 @@ describe("bidi module", function()
     end)
   end)
 
+  describe("helper functions", function()
+    describe("get_visual_reordering works as expected",function()
+      local text = {0x06CC, 0x06C1} -- "یہ" U+06CC U+06C1
+      local reordered_text = bidi.get_visual_reordering(text)
+
+      -- Order has been reversed
+      assert.is_equal(text[1], reordered_text[2])
+      assert.is_equal(text[2], reordered_text[1])
+    end)
+  end)
+
 end)
