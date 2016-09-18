@@ -8,7 +8,7 @@ local LinkedList = require("bidi.LinkedList")
 -- The implementation in this file covers definitions BD14-BD16 and rule N0
 -- of UAX#9.
 --
--- Some preprocessing is done for each rune before data is passed to this
+-- Some preprocessing is done for each character before data is passed to this
 -- algorithm:
 --  - opening and closing brackets are identified
 --  - a bracket pair type, like '(' and ')' is assigned a unique identifier that
