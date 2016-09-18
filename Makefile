@@ -8,7 +8,7 @@ clean:
 	rm -rf build *.so
 
 lint:
-	luacheck src spec --ignore 542
+	luacheck src spec example --ignore 542
 
 doc:
 	ldoc -d docs  .
