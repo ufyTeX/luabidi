@@ -1161,8 +1161,86 @@ function Paragraph:getReordering(linebreaks)
   return computeMultilineReordering(levels, linebreaks)
 end
 
+local function codepoints_to_types(codepoints)
+  local types = {}
+  for i,cp in ipairs(codepoints) do
+    types[i] = ucdn.get_bidi_class(cp)
+  end
+
+  return types
+end
+
+local function codepoints_to_pair_types(codepoints)
+  local pairTypes = {}
+  for i,cp in ipairs(codepoints) do
+    pairTypes[i] = ucdn.paired_bracket_type(cp)
+  end
+
+  return pairTypes
+end
+
+local function codepoints_to_pair_values(codepoints)
+  local pairValues = {}
+  for i,cp in ipairs(codepoints) do
+    local pair_type = ucdn.paired_bracket_type(cp)
+    if pair_type == ucdn.UCDN_BIDI_PAIRED_BRACKET_TYPE_OPEN then
+      pairValues[i] = cp
+    elseif pair_type == ucdn.UCDN_BIDI_PAIRED_BRACKET_TYPE_CLOSE then
+      pairValues[i] = ucdn.paired_bracket(cp)
+    else
+      pairValues[i] = 0
+    end
+  end
+
+  return pairValues
+end
+
+-- list of types that should be removed from final reordered output.
+local removeClasses = {
+  [ucdn.UCDN_BIDI_CLASS_LRO]  = true,
+  [ucdn.UCDN_BIDI_CLASS_RLO] = true,
+  [ucdn.UCDN_BIDI_CLASS_RLE] = true,
+  [ucdn.UCDN_BIDI_CLASS_LRE] = true,
+  [ucdn.UCDN_BIDI_CLASS_PDF] = true,
+  [ucdn.UCDN_BIDI_CLASS_BN]  = true,
+}
+
+local function filter_order(types, order)
+  local no = {}
+  for _,o in ipairs(order) do
+    if not removeClasses[types[o]] then table.insert(no, o) end
+  end
+  return no
+end
+
+local function get_visual_reordering(codepoints, dir, linebreaks)
+  if dir == nil then dir = -1  -- auto
+  elseif string.lower(dir) == 'ltr' then dir = 0
+  elseif string.lower(dir) == 'rtl' then dir = 1
+  else error "Invalid value for dir. Must be one of 'ltr', 'rtl' or nil" end
+
+  if linebreaks == nil then linebreaks = { #codepoints + 1} end
+  local types = codepoints_to_types(codepoints)
+  local pair_types = codepoints_to_pair_types(codepoints)
+  local pair_values = codepoints_to_pair_values(codepoints)
+
+  local para = Paragraph.new(types, pair_types, pair_values, dir)
+  local reordering = filter_order(types, para:getReordering(linebreaks))
+
+  local reordered = {}
+  for i,v in ipairs(reordering) do
+    reordered[i] = codepoints[v]
+  end
+
+  return reordered
+end
+
 local bidi = {
-  Paragraph = Paragraph
+  Paragraph = Paragraph,
+  codepoints_to_types = codepoints_to_types,
+  codepoints_to_pair_values = codepoints_to_pair_values,
+  codepoints_to_pair_types = codepoints_to_pair_types,
+  get_visual_reordering = get_visual_reordering
 }
 
 return bidi
