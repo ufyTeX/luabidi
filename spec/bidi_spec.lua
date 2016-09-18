@@ -18,7 +18,8 @@ describe("bidi module", function()
       local validPairValues = { 0, 1, 1 }
 
       it("does not raise an error with valid arguments", function()
-        assert.has_no.errors(function() bidi.Paragraph.new(validTypes, validPairTypes, validPairValues) end)
+        bidi.Paragraph.new(validTypes, validPairTypes, validPairValues)
+        assert.has_no.errors(function()  end)
       end)
 
       it("raises an error if types argument is not a table", function()
@@ -59,6 +60,13 @@ describe("bidi module", function()
 
       it("raises an error if pairValues does not match pairTypes in length", function()
         assert.has_error(function() bidi.Paragraph.new(validTypes, validPairTypes, {1,1})  end)
+      end)
+
+      it("raises an error if the linebreaks array is invalid", function()
+        assert.has_error(function()
+          local para = bidi.Paragraph.new(validTypes, validPairTypes, validPairValues)
+          para:getReordering({1, 0})
+        end)
       end)
     end)
   end)
