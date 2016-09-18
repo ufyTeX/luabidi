@@ -9,11 +9,11 @@ local reordered_text = bidi.get_visual_reordering(text)
 
 -- hex representation
 for i,v in ipairs(reordered_text) do
-  reordered_text[i] = string.format("%04X", v)
+  reordered_text[i] = string.format("U+%04X", v)
 end
 
 for i,v in ipairs(text) do
-  text[i] = string.format("%04X", v)
+  text[i] = string.format("U+%04X", v)
 end
 
 print("Original codepoints (in logical order): " .. serpent.line(text,{comment = false}))
