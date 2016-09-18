@@ -1,0 +1,361 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>luabidi Documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>luabidi</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/LNode.html">LNode</a></li>
+  <li><strong>LinkedList</strong></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/bidi.html">bidi</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>LinkedList</code></h1>
+<p>Doubly-linked List</p>
+<p>
+
+</p>
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">dll = LinkedList.new()
+dll:pushBack(&quot;Some data&quot;)
+print(dll:popBack())
+</pre>
+    </ul>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Author</strong>: jose@josellausas.com</li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#LinkedList.new">LinkedList.new ()</a></td>
+	<td class="summary">Creates a new Doubly-linked List</td>
+	</tr>
+</table>
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#LinkedList:getTail">LinkedList:getTail ()</a></td>
+	<td class="summary">Returns the last node</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#LinkedList:getCount">LinkedList:getCount ()</a></td>
+	<td class="summary">Returns the number of items in the list</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#LinkedList:pushBack">LinkedList:pushBack (data)</a></td>
+	<td class="summary">Pushes the data to the back of the list inside a new Node</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#LinkedList:pushFront">LinkedList:pushFront (data)</a></td>
+	<td class="summary">Pushes the data to the front of the list inside a new node</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#LinkedList:deleteAll">LinkedList:deleteAll ()</a></td>
+	<td class="summary">Deletas all the nodes and data references in the list</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#LinkedList:popFront">LinkedList:popFront ()</a></td>
+	<td class="summary">Pops the first element's data.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#LinkedList:popBack">LinkedList:popBack ()</a></td>
+	<td class="summary">Removes and returns the last data in the list</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#LinkedList:getDataArray">LinkedList:getDataArray ()</a></td>
+	<td class="summary">Returns all the data inside the list as an array.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#LinkedList:getDataArrayBackwards">LinkedList:getDataArrayBackwards ()</a></td>
+	<td class="summary">Same as above but backwards ordered</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#LinkedList:removeLast">LinkedList:removeLast ()</a></td>
+	<td class="summary">Removes the last item on the list</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#LinkedList:removeFirst">LinkedList:removeFirst ()</a></td>
+	<td class="summary">Removes the first item on the list</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+    Methods
+    <dl class="function">
+    <dt>
+    <a name = "LinkedList.new"></a>
+    <strong>LinkedList.new ()</strong>
+    </dt>
+    <dd>
+    Creates a new Doubly-linked List
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <strong>(LinkedList)</strong> New LinkedList
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "LinkedList:getTail"></a>
+    <strong>LinkedList:getTail ()</strong>
+    </dt>
+    <dd>
+    Returns the last node
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <strong>(LNode)</strong> The last node or nil
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "LinkedList:getCount"></a>
+    <strong>LinkedList:getCount ()</strong>
+    </dt>
+    <dd>
+    Returns the number of items in the list
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <strong>(num)</strong> The number of items on the list
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "LinkedList:pushBack"></a>
+    <strong>LinkedList:pushBack (data)</strong>
+    </dt>
+    <dd>
+    Pushes the data to the back of the list inside a new Node
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+         <strong>(any)</strong> Any data to store in the list
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "LinkedList:pushFront"></a>
+    <strong>LinkedList:pushFront (data)</strong>
+    </dt>
+    <dd>
+    Pushes the data to the front of the list inside a new node
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+         <strong>(any)</strong> The data to store
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "LinkedList:deleteAll"></a>
+    <strong>LinkedList:deleteAll ()</strong>
+    </dt>
+    <dd>
+    Deletas all the nodes and data references in the list
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "LinkedList:popFront"></a>
+    <strong>LinkedList:popFront ()</strong>
+    </dt>
+    <dd>
+    Pops the first element's data.  Removes it from the list
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <strong>(data)</strong> The first data stored in the list
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "LinkedList:popBack"></a>
+    <strong>LinkedList:popBack ()</strong>
+    </dt>
+    <dd>
+    Removes and returns the last data in the list
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <strong>(data)</strong> The last item's data
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "LinkedList:getDataArray"></a>
+    <strong>LinkedList:getDataArray ()</strong>
+    </dt>
+    <dd>
+    Returns all the data inside the list as an array.  Uses '[nil]' for nil data</p>
+
+<p> return <strong>({arr})</strong> An array with the data.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "LinkedList:getDataArrayBackwards"></a>
+    <strong>LinkedList:getDataArrayBackwards ()</strong>
+    </dt>
+    <dd>
+    Same as above but backwards ordered
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <strong>({arr})</strong> An array with the data reversed.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "LinkedList:removeLast"></a>
+    <strong>LinkedList:removeLast ()</strong>
+    </dt>
+    <dd>
+    Removes the last item on the list
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "LinkedList:removeFirst"></a>
+    <strong>LinkedList:removeFirst ()</strong>
+    </dt>
+    <dd>
+    Removes the first item on the list
+
+
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.5</a></i>
+<i style="float:right;">Last updated 2016-09-18 12:51:32 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

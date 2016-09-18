@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>luabidi Documentation</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>luabidi</h1>
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Class_Paragraph">Class Paragraph</a></li>
+<li><a href="#Helper_Functions">Helper Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>bidi</strong></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="examples/simple.lua.html">simple.lua</a></li>
+  <li><a href="examples/types.lua.html">types.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>bidi</code></h1>
+<p>Lua port of the reference implementation of the Unicode
+ Bidirectional Algorithm (UAX #9).</p>
+<p>
+
+
+<ul>
+    <li><a href="https://github.com/deepakjois/luabidi">Source on Github</a></li>
+</ul>
+</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2016</li>
+        <li><strong>License</strong>: MIT</li>
+        <li><strong>Author</strong>: Deepak Jois <<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;d&#101;&#x65;&#112;&#x61;&#107;&#x2e;&#106;&#x6f;i&#115;&#x40;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;m">&#x64;&#101;&#x65;&#112;&#x61;&#107;&#x2e;j&#111;&#x69;&#115;&#x40;&#103;&#x6d;&#97;&#x69;l&#46;&#x63;&#111;&#x6d;</a>></li>
+    </ul>
+
+
+<h2><a href="#Class_Paragraph">Class Paragraph</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Paragraph.new">Paragraph.new (types, pairTypes, pairValues[, level=-1])</a></td>
+	<td class="summary">Initialize a new paragraph.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Paragraph:getLevels">Paragraph:getLevels (linebreaks)</a></td>
+	<td class="summary">Return levels array breaking lines at offsets in linebreaks (Rule L1).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Paragraph:getReordering">Paragraph:getReordering (linebreaks)</a></td>
+	<td class="summary">Return reordering array breaking lines at offsets in linebreaks.</td>
+	</tr>
+</table>
+<h2><a href="#Helper_Functions">Helper Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#codepoints_to_types">codepoints_to_types (codepoints)</a></td>
+	<td class="summary">Generate Bidi_Class property (directional codes) for each codepoint in the
+ input array.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#codepoints_to_pair_types">codepoints_to_pair_types (codepoints)</a></td>
+	<td class="summary">Generate Bidi_Paired_Bracket_Type property for each codepoint
+ in the input array.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#codepoints_to_pair_values">codepoints_to_pair_values (codepoints)</a></td>
+	<td class="summary">Generate an array of unique integers identifying which pair of brackets a
+ bracket character belongs to.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_visual_reordering">get_visual_reordering (codepoints[, dir=nil[, linebreaks=nil]])</a></td>
+	<td class="summary">Generate a visual reordering of codepoints after applying the Unicode
+ Bidirectional Algorithm.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header has-description"><a name="Class_Paragraph"></a>Class Paragraph</h2>
+
+          <div class="section-description">
+          Paragraph contains the state of a paragraph.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "Paragraph.new"></a>
+    <strong>Paragraph.new (types, pairTypes, pairValues[, level=-1])</strong>
+    </dt>
+    <dd>
+    Initialize a new paragraph. </p>
+
+<p> Initialize a new paragaph using several arrays of direction and other types
+ and an externally supplied paragraph embedding level.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">types</span>
+         Bidi_Class property (directional codes) for each character in the
+ original string. Codes must correspond to the values in the
+ <a href="http://deepakjois.github.io/luaucdn">luaucdn</a> module.</p>
+
+<p> This can be generated from the original input text using
+ <code>codepoints_to_types</code> function.
+        </li>
+        <li><span class="parameter">pairTypes</span>
+         t Bidi_Paired_Bracket_Type property  for each character
+ in the original string. Codes must correspond to the values in the
+ <a href="http://deepakjois.github.io/luaucdn">luaucdn</a> module.</p>
+
+<p> This can be generated from the original input text using
+ <code>codepoints_to_pair_types</code> function.
+        </li>
+        <li><span class="parameter">pairValues</span>
+         array of unique integers identifying which pair of
+ brackets (or canonically equivalent set) a bracket character belongs to. For
+ example in the string <code>[Test(s)&gt;</code> the characters <code>(</code> and <code>)</code> would share one
+ value and <code>[</code> and <code>&gt;</code> share another (assuming that <code>]</code> and <code>&gt;</code> are
+ canonically equivalent).  Characters that have Bidi_Paired_Bracket_Type <code>n</code> (None)
+ may always get a single value like 0.</p>
+
+<p> This can be generated from the input text using <code>codepoints_to_pair_values</code>
+ function.
+        </li>
+        <li><span class="parameter">level</span>
+         The embedding level may be  <code>0</code>(LTR), <code>1</code>(RTL) or <code>-1</code>(auto).
+ <code>-1</code> means apply the default algorithm (rules P2 and P3).
+         (<em>default</em> -1)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Paragraph:getLevels"></a>
+    <strong>Paragraph:getLevels (linebreaks)</strong>
+    </dt>
+    <dd>
+    Return levels array breaking lines at offsets in linebreaks (Rule L1). </p>
+
+<p> The returned levels array contains the resolved level for each bidi code
+ passed to the constructor.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">linebreaks</span>
+         The linebreaks array must include at least one value. The values must be
+ in strictly increasing order (no duplicates) between 1 and the length of
+ the text, inclusive. The last value must be the length of the text.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Paragraph:getReordering"></a>
+    <strong>Paragraph:getReordering (linebreaks)</strong>
+    </dt>
+    <dd>
+    Return reordering array breaking lines at offsets in linebreaks. </p>
+
+<p> The reordering array maps from a visual index to a logical index. Lines
+ are concatenated from left to right. So for example, the fifth character
+ from the left on the third line is</p>
+
+
+<pre><code> para:getReordering(linebreaks)[linebreaks[1] + 4]
+</code></pre>
+
+
+<p> (<code>linebreaks[1]</code> is the position after the last character of the second
+ line, which is also the index of the first character on the third line,
+ and adding four gets the fifth character from the left).
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">linebreaks</span>
+         The linebreaks array must include at least one value. The values must be
+ in strictly increasing order (no duplicates) between 1 and the length of
+ the text, inclusive. The last value must be the length of the text.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Helper_Functions"></a>Helper Functions</h2>
+
+          <div class="section-description">
+           Helper functions to generate arrays for the <code>bidi.Paragraph</code> type.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "codepoints_to_types"></a>
+    <strong>codepoints_to_types (codepoints)</strong>
+    </dt>
+    <dd>
+    Generate Bidi_Class property (directional codes) for each codepoint in the
+ input array. </p>
+
+<p> Codes will correspond to the values in the
+ <a href="http://deepakjois.github.io/luaucdn">luaucdn</a> module.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">codepoints</span>
+         list of codepoints in the original input string.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "codepoints_to_pair_types"></a>
+    <strong>codepoints_to_pair_types (codepoints)</strong>
+    </dt>
+    <dd>
+    Generate Bidi_Paired_Bracket_Type property for each codepoint
+ in the input array. </p>
+
+<p> Codes must correspond to the values in the
+ <a href="http://deepakjois.github.io/luaucdn">luaucdn</a> module.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">codepoints</span>
+         list of codepoints in the original input string.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "codepoints_to_pair_values"></a>
+    <strong>codepoints_to_pair_values (codepoints)</strong>
+    </dt>
+    <dd>
+    Generate an array of unique integers identifying which pair of brackets a
+ bracket character belongs to. </p>
+
+<p> For example in the string <code>[Test(s)&gt;</code> the characters <code>(</code> and <code>)</code> would share one
+ value and <code>[</code> and <code>&gt;</code> share another (assuming that <code>]</code> and <code>&gt;</code> are
+ canonically equivalent).  Characters that have Bidi_Paired_Bracket_Type <code>n</code> (None)
+ may always get a single value like 0.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">codepoints</span>
+         list of codepoints in the original input string.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_visual_reordering"></a>
+    <strong>get_visual_reordering (codepoints[, dir=nil[, linebreaks=nil]])</strong>
+    </dt>
+    <dd>
+    Generate a visual reordering of codepoints after applying the Unicode
+ Bidirectional Algorithm. </p>
+
+<p> This function can be directly called with the list of codepoints in the
+ original string. It does the heavy lifting of calling all the other helper
+ functions, applying sensible defaults, and removing unneeded characters from
+ the visually re-ordered string.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">codepoints</span>
+         list of codepoints in the original input string.
+        </li>
+        <li><span class="parameter">dir</span>
+         The externally supplied direction – either <code>'ltr'</code>, <code>'rtl'</code> or <code>nil</code> (for auto).
+         (<em>default</em> nil)
+        </li>
+        <li><span class="parameter">linebreaks</span>
+         offsets in the codepoints array where line breaks must be applied.</p>
+
+<p> When not provided, the default value is an array with a single offset beyond
+ the range of the input text.</p>
+
+<p> The values in the linebreaks must be instrictly increasing order (no
+ duplicates) between 1 and the length of the text, inclusive. The last value
+ must be the length of the text.
+         (<em>default</em> nil)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.5</a></i>
+<i style="float:right;">Last updated 2016-09-18 14:09:55 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

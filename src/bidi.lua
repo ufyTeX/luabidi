@@ -1,3 +1,13 @@
+-----------
+-- Lua port of the reference implementation of the Unicode
+-- Bidirectional Algorithm (UAX #9).
+--
+-- * [Source on Github](https://github.com/deepakjois/luabidi)
+--
+-- @author Deepak Jois <<deepak.jois@gmail.com>>
+-- @copyright 2016
+-- @license MIT
+-- @module bidi
 local ucdn = require("ucdn")
 local bracket = require("bidi.bracket")
 
@@ -42,6 +52,8 @@ local bracket = require("bidi.bracket")
 -- base character in RTL runs) and that it adjusts the glyphs used to render
 -- mirrored characters that are in RTL runs so that they render appropriately.
 
+--- Paragraph contains the state of a paragraph.
+-- @type Paragraph
 local Paragraph = {}
 Paragraph.__index = Paragraph
 
@@ -220,8 +232,37 @@ local function typeForLevel(level)
   if bit32.band(level, 1) == 0 then return L else return R end
 end
 
--- Initialize using several arrays of direction and other types and an externally supplied
--- paragraph embedding level. The embedding level may be  0, 1 or -1.
+--- Initialize a new paragraph.
+--
+-- Initialize a new paragaph using several arrays of direction and other types
+-- and an externally supplied paragraph embedding level.
+--
+-- @param types Bidi\_Class property (directional codes) for each character in the
+-- original string. Codes must correspond to the values in the
+-- [luaucdn](http://deepakjois.github.io/luaucdn) module.
+--
+-- This can be generated from the original input text using
+-- `codepoints_to_types` function.
+--
+-- @param pairTypes t Bidi\_Paired\_Bracket\_Type property  for each character
+-- in the original string. Codes must correspond to the values in the
+-- [luaucdn](http://deepakjois.github.io/luaucdn) module.
+--
+-- This can be generated from the original input text using
+-- `codepoints_to_pair_types` function.
+--
+-- @param pairValues array of unique integers identifying which pair of
+-- brackets (or canonically equivalent set) a bracket character belongs to. For
+-- example in the string `[Test(s)>` the characters `(` and `)` would share one
+-- value and `[` and `>` share another (assuming that `]` and `>` are
+-- canonically equivalent).  Characters that have Bidi\_Paired\_Bracket\_Type `n` (None)
+-- may always get a single value like 0.
+--
+-- This can be generated from the input text using `codepoints_to_pair_values`
+-- function.
+--
+-- @param[opt=-1] level The embedding level may be  `0`(LTR), `1`(RTL) or `-1`(auto).
+-- `-1` means apply the default algorithm (rules P2 and P3).
 function Paragraph.new(types, pairTypes, pairValues, paragraphEmbeddingLevel)
   validateTypes(types)
   validatePbTypes(pairTypes)
@@ -988,13 +1029,12 @@ end
 -- Output
 --
 
--- Return levels array breaking lines at offsets in linebreaks.
--- Rule L1.
+--- Return levels array breaking lines at offsets in linebreaks (Rule L1).
 --
 -- The returned levels array contains the resolved level for each bidi code
 -- passed to the constructor.
 --
--- The linebreaks array must include at least one value. The values must be
+-- @param linebreaks The linebreaks array must include at least one value. The values must be
 -- in strictly increasing order (no duplicates) between 1 and the length of
 -- the text, inclusive. The last value must be the length of the text.
 function Paragraph:getLevels(linebreaks)
@@ -1137,21 +1177,21 @@ local function computeMultilineReordering(levels, linebreaks)
   return result
 end
 
--- Return reordering array breaking lines at offsets in linebreaks.
+--- Return reordering array breaking lines at offsets in linebreaks.
 --
 -- The reordering array maps from a visual index to a logical index. Lines
 -- are concatenated from left to right. So for example, the fifth character
 -- from the left on the third line is
 --
 --
---     getReordering(linebreaks)[linebreaks[1] + 4]
+--     para:getReordering(linebreaks)[linebreaks[1] + 4]
 --
 --
--- (linebreaks[1] is the position after the last character of the second
+-- (`linebreaks[1]` is the position after the last character of the second
 -- line, which is also the index of the first character on the third line,
 -- and adding four gets the fifth character from the left).
 --
--- The linebreaks array must include at least one value. The values must be
+-- @param linebreaks The linebreaks array must include at least one value. The values must be
 -- in strictly increasing order (no duplicates) between 1 and the length of
 -- the text, inclusive. The last value must be the length of the text.
 function Paragraph:getReordering(linebreaks)
@@ -1161,7 +1201,23 @@ function Paragraph:getReordering(linebreaks)
   return computeMultilineReordering(levels, linebreaks)
 end
 
-local function codepoints_to_types(codepoints)
+local bidi = {
+  Paragraph = Paragraph,
+}
+
+--- Helper Functions
+--
+-- Helper functions to generate arrays for the `bidi.Paragraph` type.
+-- @section
+
+--- Generate Bidi\_Class property (directional codes) for each codepoint in the
+-- input array.
+--
+-- Codes will correspond to the values in the
+-- [luaucdn](http://deepakjois.github.io/luaucdn) module.
+--
+-- @param codepoints list of codepoints in the original input string.
+function bidi.codepoints_to_types(codepoints)
   local types = {}
   for i,cp in ipairs(codepoints) do
     types[i] = ucdn.get_bidi_class(cp)
@@ -1170,7 +1226,14 @@ local function codepoints_to_types(codepoints)
   return types
 end
 
-local function codepoints_to_pair_types(codepoints)
+--- Generate Bidi\_Paired\_Bracket\_Type property for each codepoint
+-- in the input array.
+--
+-- Codes must correspond to the values in the
+-- [luaucdn](http://deepakjois.github.io/luaucdn) module.
+--
+-- @param codepoints list of codepoints in the original input string.
+function bidi.codepoints_to_pair_types(codepoints)
   local pairTypes = {}
   for i,cp in ipairs(codepoints) do
     pairTypes[i] = ucdn.paired_bracket_type(cp)
@@ -1179,7 +1242,16 @@ local function codepoints_to_pair_types(codepoints)
   return pairTypes
 end
 
-local function codepoints_to_pair_values(codepoints)
+--- Generate an array of unique integers identifying which pair of brackets a
+-- bracket character belongs to.
+--
+-- For example in the string `[Test(s)>` the characters `(` and `)` would share one
+-- value and `[` and `>` share another (assuming that `]` and `>` are
+-- canonically equivalent).  Characters that have Bidi\_Paired\_Bracket\_Type `n` (None)
+-- may always get a single value like 0.
+--
+-- @param codepoints list of codepoints in the original input string.
+function bidi.codepoints_to_pair_values(codepoints)
   local pairValues = {}
   for i,cp in ipairs(codepoints) do
     local pair_type = ucdn.paired_bracket_type(cp)
@@ -1213,16 +1285,35 @@ local function filter_order(types, order)
   return no
 end
 
-local function get_visual_reordering(codepoints, dir, linebreaks)
-  if dir == nil then dir = -1  -- auto
-  elseif string.lower(dir) == 'ltr' then dir = 0
-  elseif string.lower(dir) == 'rtl' then dir = 1
-  else error "Invalid value for dir. Must be one of 'ltr', 'rtl' or nil" end
+--- Generate a visual reordering of codepoints after applying the Unicode
+-- Bidirectional Algorithm.
+--
+-- This function can be directly called with the list of codepoints in the
+-- original string. It does the heavy lifting of calling all the other helper
+-- functions, applying sensible defaults, and removing unneeded characters from
+-- the visually re-ordered string.
+--
+-- @param codepoints list of codepoints in the original input string.
+--
+-- @param[opt=nil] dir The externally supplied direction – either `'ltr'`, `'rtl'` or `nil` (for auto).
+--
+-- @param[opt=nil] linebreaks offsets in the codepoints array where line breaks must be applied.
+--
+-- When not provided, the default value is an array with a single offset beyond
+-- the range of the input text.
+--
+-- The values in the linebreaks must be instrictly increasing order (no
+-- duplicates) between 1 and the length of the text, inclusive. The last value
+-- must be the length of the text.
+function bidi.get_visual_reordering(codepoints, dir, linebreaks)
+ if dir  == nil then dir = -1  -- auto
+ elseif string.lower(dir) == 'ltr' then dir = 0
+ elseif string.lower(dir) == 'rtl' then dir = 1 else error "Invalid value for dir. Must be one of 'ltr', 'rtl' or nil" end
 
   if linebreaks == nil then linebreaks = { #codepoints + 1} end
-  local types = codepoints_to_types(codepoints)
-  local pair_types = codepoints_to_pair_types(codepoints)
-  local pair_values = codepoints_to_pair_values(codepoints)
+  local types = bidi.codepoints_to_types(codepoints)
+  local pair_types = bidi.codepoints_to_pair_types(codepoints)
+  local pair_values = bidi.codepoints_to_pair_values(codepoints)
 
   local para = Paragraph.new(types, pair_types, pair_values, dir)
   local reordering = filter_order(types, para:getReordering(linebreaks))
@@ -1235,13 +1326,6 @@ local function get_visual_reordering(codepoints, dir, linebreaks)
   return reordered
 end
 
-local bidi = {
-  Paragraph = Paragraph,
-  codepoints_to_types = codepoints_to_types,
-  codepoints_to_pair_values = codepoints_to_pair_values,
-  codepoints_to_pair_types = codepoints_to_pair_types,
-  get_visual_reordering = get_visual_reordering
-}
 
 return bidi
 

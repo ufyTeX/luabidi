@@ -10,7 +10,7 @@ clean:
 lint:
 	luacheck src spec examples --ignore 542
 
-doc:
+docs:
 	ldoc -d docs  .
 
-.PHONY: clean lint spec spec-ucd doc
+.PHONY: clean lint spec spec-ucd docs
