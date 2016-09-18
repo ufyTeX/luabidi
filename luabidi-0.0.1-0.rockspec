@@ -17,6 +17,9 @@ dependencies = {
 build = {
   type = "builtin",
   modules = {
-    bidi = "src/bidi.lua"
+    bidi = "src/bidi.lua",
+    ["bidi.bracket"] = "src/bidi/bracket.lua",
+    ["bidi.LinkedList"] = "src/bidi/LinkedList.lua",
+    ["bidi.LNode"] = "src/bidi/LNode.lua"
   }
 }

@@ -1,5 +1,5 @@
 local ucdn = require("ucdn")
-local bracket = require("bidi_bracket")
+local bracket = require("bidi.bracket")
 
 -- FIXME Write some top-level docs.
 

@@ -1,5 +1,5 @@
 local ucdn = require("ucdn")
-local LinkedList = require("LinkedList") -- FIXME figure out final location of this module.
+local LinkedList = require("bidi.LinkedList")
 
 local L  = ucdn.UCDN_BIDI_CLASS_L
 local R  = ucdn.UCDN_BIDI_CLASS_R
