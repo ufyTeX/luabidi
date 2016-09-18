@@ -171,6 +171,7 @@ end
 -- See http://www.unicode.org/Public/UCD/latest/ucd/BidiTest.txt.
 describe("Test cases in BidiTest.txt file #ucd #biditest", function()
   it("should pass", function()
+    print("running tests in BidiTest.txt file...")
     for test_case in ucd_utils.BidiTestReader.reader() do
       run_bidi_test_case(test_case)
     end
@@ -181,6 +182,7 @@ end)
 -- See http://www.unicode.org/Public/UCD/latest/ucd/BidiCharacterTest.txt.
 describe("Test cases in BidiCharacterTest.txt file #ucd #bidichartest", function()
   it("should pass", function()
+    print("running tests in BidiCharacterTest.txt file...")
     for test_case in ucd_utils.BidiCharacterTestReader.reader() do
       run_bidi_char_test_case(test_case)
     end

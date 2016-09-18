@@ -9,6 +9,7 @@ return {
     ["exclude-tags"] = "ucd"
   },
   ucd = {
-    tags = "ucd"
+    tags = "ucd",
+    ["exclude-tags"] = "single"
   }
 }
