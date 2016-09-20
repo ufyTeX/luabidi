@@ -1,6 +1,6 @@
 local ucdn = require("ucdn")
 local LinkedList = require("bidi.LinkedList")
-
+local serpent = require("serpent")
 -- This file contains a port of the reference implementation of the
 -- Bidi Parentheses Algorithm:
 -- http://www.unicode.org/Public/PROGRAMS/BidiReferenceJava/BidiPBAReference.java
@@ -29,6 +29,7 @@ local ON = ucdn.UCDN_BIDI_CLASS_ON
 local AL = ucdn.UCDN_BIDI_CLASS_AL
 local EN = ucdn.UCDN_BIDI_CLASS_EN
 local AN = ucdn.UCDN_BIDI_CLASS_AN
+local NSM = ucdn.UCDN_BIDI_CLASS_NSM
 
 local N = ucdn.UCDN_BIDI_PAIRED_BRACKET_TYPE_NONE
 local O = ucdn.UCDN_BIDI_PAIRED_BRACKET_TYPE_OPEN
@@ -51,6 +52,8 @@ function BracketPairer:matchOpener(pairValues, opener, closer)
   return pairValues[self.indexes[opener]] == pairValues[self.indexes[closer]]
 end
 
+local MAX_PAIRING_DEPTH = 63
+
 -- locates matching bracket pairs according to BD16.
 --
 -- This implementation uses a linked list instead of a stack, because, while
@@ -63,7 +66,14 @@ function BracketPairer:locateBrackets(pairTypes, pairValues)
     -- look at the bracket type for each character
     if pairTypes[index] == N then -- default - non paired
       -- continue scanning
+    elseif self.codesIsolatedRun[ich] ~= ON then
+      -- continue scanning
     elseif pairTypes[index] == O then -- opening bracket found, note location
+      -- check for stack overflow
+      if self.openers:getCount() == MAX_PAIRING_DEPTH then
+        self.pairPositions = {}
+        return
+      end
       self.openers:pushFront(ich)
     elseif pairTypes[index] == C then -- closing bracket found
       -- see if there is a match
@@ -210,6 +220,24 @@ function BracketPairer:assignBracketType(pairedLocation,dirEmbed)
   -- set the bracket types to the type found
   self.codesIsolatedRun[pairedLocation.opener] = dirPair
   self.codesIsolatedRun[pairedLocation.closer] = dirPair
+
+  for i = pairedLocation.opener + 1, pairedLocation.closer - 1 do
+    local index = self.indexes[i]
+    if self.paragraph.initialTypes[index]  == NSM  then
+      self.codesIsolatedRun[i] = dirPair
+    else
+      break
+    end
+  end
+
+  for i = pairedLocation.closer + 1, #self.indexes do
+    local index = self.indexes[i]
+    if self.paragraph.initialTypes[index]  == NSM  then
+      self.codesIsolatedRun[i] = dirPair
+    else
+      break
+    end
+  end
 end
 
 -- this implements rule N0 for a list of pairs
@@ -228,6 +256,7 @@ local function resolvePairedBrackets(sequence)
   bp.openers = LinkedList.new()
   bp.codesIsolatedRun = sequence.types
   bp.indexes = sequence.indexes
+  bp.paragraph = sequence.paragraph
   bp.pairPositions = {}
 
   bp:locateBrackets(sequence.paragraph.pairTypes, sequence.paragraph.pairValues)

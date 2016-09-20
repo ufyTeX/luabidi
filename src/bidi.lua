@@ -521,6 +521,9 @@ function Paragraph:determineExplicitEmbeddingLevels()
 
       if isIsolate then
         self.resultLevels[i] = stack:lastEmbeddingLevel()
+        if stack:lastDirectionalOverrideStatus() ~= ON then
+          self.resultTypes[i] = stack:lastDirectionalOverrideStatus()
+        end
       end
 
       local newLevel
