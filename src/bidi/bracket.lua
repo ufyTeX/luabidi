@@ -1,6 +1,6 @@
 local ucdn = require("ucdn")
 local LinkedList = require("bidi.LinkedList")
-local serpent = require("serpent")
+
 -- This file contains a port of the reference implementation of the
 -- Bidi Parentheses Algorithm:
 -- http://www.unicode.org/Public/PROGRAMS/BidiReferenceJava/BidiPBAReference.java
