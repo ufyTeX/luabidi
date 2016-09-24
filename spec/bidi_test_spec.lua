@@ -117,21 +117,12 @@ local function run_bidi_test_case(test_case)
 end
 
 local function run_bidi_char_test_case(test_case)
-  local types, pairTypes, pairValues, level = {}, {}, {}, test_case.dir
-
+  local level = test_case.dir
   if level == 2 then level = nil end -- Fixing mismatch in test file and algorithm
 
-  for i,cp in ipairs(test_case.codepoints) do
-    types[i] = ucdn.get_bidi_class(cp)
-    pairTypes[i] = ucdn.paired_bracket_type(cp)
-    if pairTypes[i] == ucdn.UCDN_BIDI_PAIRED_BRACKET_TYPE_OPEN then
-      pairValues[i] = cp
-    elseif pairTypes[i] == ucdn.UCDN_BIDI_PAIRED_BRACKET_TYPE_CLOSE then
-      pairValues[i] = ucdn.paired_bracket(cp)
-    else
-      pairValues[i] = 0
-    end
-  end
+  local types = bidi.codepoints_to_types(test_case.codepoints)
+  local pairValues = bidi.codepoints_to_pair_values(test_case.codepoints)
+  local pairTypes = bidi.codepoints_to_pair_types(test_case.codepoints)
 
   -- print(table_str(types))
   -- print(table_str(pairTypes))

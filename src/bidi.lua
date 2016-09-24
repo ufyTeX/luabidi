@@ -1259,9 +1259,12 @@ function bidi.codepoints_to_pair_values(codepoints)
   for i,cp in ipairs(codepoints) do
     local pair_type = ucdn.paired_bracket_type(cp)
     if pair_type == ucdn.UCDN_BIDI_PAIRED_BRACKET_TYPE_OPEN then
-      pairValues[i] = cp
+      local dc = ucdn.compat_decompose(cp)
+      pairValues[i] = #dc > 0 and dc[1] or cp
     elseif pair_type == ucdn.UCDN_BIDI_PAIRED_BRACKET_TYPE_CLOSE then
-      pairValues[i] = ucdn.paired_bracket(cp)
+      local dc = ucdn.compat_decompose(cp)
+      local paired_cp =  #dc > 0 and dc[1] or cp
+      pairValues[i] = ucdn.paired_bracket(paired_cp)
     else
       pairValues[i] = 0
     end
