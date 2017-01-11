@@ -1,8 +1,8 @@
 package = "luabidi"
-version = "0.0.2-0"
+version = "0.0.3-0"
 source = {
   url = "git://github.com/deepakjois/luabidi.git",
-  tag = "v0.0.2"
+  tag = "v0.0.3"
 }
 description = {
   summary = "Lua implementation of the Unicode Bidirectional Algorithm",
@@ -11,7 +11,7 @@ description = {
   maintainer = "Deepak Jois <deepak.jois@gmail.com>"
 }
 dependencies = {
-  "lua ~> 5.2",
+  "lua >= 5.2",
   "luaucdn >= 0.0.4"
 }
 build = {
