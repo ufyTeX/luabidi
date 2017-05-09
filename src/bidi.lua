@@ -1206,6 +1206,7 @@ end
 
 local bidi = {
   Paragraph = Paragraph,
+  MAX_DEPTH = MAX_DEPTH
 }
 
 --- Helper Functions
