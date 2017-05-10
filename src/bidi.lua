@@ -261,7 +261,7 @@ end
 -- This can be generated from the input text using `codepoints_to_pair_values`
 -- function.
 --
--- @param[opt=-1] level The embedding level may be  `0`(LTR), `1`(RTL) or `-1`(auto).
+-- @param[opt=-1] paragraphEmbeddingLevel The embedding level may be  `0`(LTR), `1`(RTL) or `-1`(auto).
 -- `-1` means apply the default algorithm (rules P2 and P3).
 function Paragraph.new(types, pairTypes, pairValues, paragraphEmbeddingLevel)
   validateTypes(types)
@@ -1206,7 +1206,6 @@ end
 
 local bidi = {
   Paragraph = Paragraph,
-  MAX_DEPTH = MAX_DEPTH
 }
 
 --- Helper Functions
@@ -1333,6 +1332,17 @@ function bidi.get_visual_reordering(codepoints, dir, linebreaks)
   return reordered
 end
 
+--- Constants
+--
+--  @section
+
+--- _Embedding levels_ are numbers that indicate how deeply the text is nested,
+--  and the default direction of text on that level. The minimum embedding level
+--  of text is zero, and the maximum explicit depth is 125, a value 
+--  exported as MAX_DEPTH.
+--
+-- @field bidi.MAX_DEPTH  
+bidi.MAX_DEPTH = MAX_DEPTH
 
 return bidi
 
