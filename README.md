@@ -33,7 +33,7 @@ end
 print("Original codepoints (in logical order): " .. serpent.line(text,{comment = false}))
 print("Visual reordering: " .. serpent.line(reordered_text,{comment = false})) -- should be { "U+06C1", "U+06CC"}
 ```
-More sample code in the [examples](https://github.com/deepakjois/luabidi/tree/master/example) folder.
+More sample code in the [examples](https://github.com/ufytex/luabidi/tree/master/example) folder.
 
 ## Development
 
