@@ -216,7 +216,7 @@ function LinkedList:getDataArrayBackwards()
 		node = node.prev
 	end
 	return dataArray
-end	
+end
 
 ----------------------------------------------------------------
 -- Removes the last item on the list
