@@ -1338,11 +1338,108 @@ end
 
 --- _Embedding levels_ are numbers that indicate how deeply the text is nested,
 --  and the default direction of text on that level. The minimum embedding level
---  of text is zero, and the maximum explicit depth is 125, a value 
+--  of text is zero, and the maximum explicit depth is 125, a value
 --  exported as MAX_DEPTH.
 --
--- @field bidi.MAX_DEPTH  
+-- @field bidi.MAX_DEPTH
 bidi.MAX_DEPTH = MAX_DEPTH
+
+--- Bidi_Class property.
+-- Enumerated constants representing [Bidi_Class values](http://www.unicode.org/reports/tr44/#Bidi_Class_Values).
+-- These values are currently exactly equivalent to their corresponding values in [luaucdn](https://ufytex.github.io/luaucdn)
+-- @section
+
+--- Left\_To_Right
+-- @field bidi.BIDI_CLASS_L
+bidi.BIDI_CLASS_L = L
+
+--- Left\_To_Right\_Embedding
+-- @field bidi.BIDI_CLASS_LRE
+bidi.BIDI_CLASS_LRE = LRE
+
+--- Left\_To_Right\_Override
+-- @field bidi.BIDI_CLASS_LRO
+bidi.BIDI_CLASS_LRO = LRO
+
+--- Right\_To_Left
+-- @field bidi.BIDI_CLASS_R
+bidi.BIDI_CLASS_R = R
+
+--- Arabic_Letter
+-- @field bidi.BIDI_CLASS_AL
+bidi.BIDI_CLASS_AL = AL
+
+--- Right\_To_Left\_Embedding
+-- @field bidi.BIDI_CLASS_RLE
+bidi.BIDI_CLASS_RLE = RLE
+
+--- Right\_To_Left\_Override
+-- @field bidi.BIDI_CLASS_RLO
+bidi.BIDI_CLASS_RLO = RLO
+
+--- Pop\_Directional_Format
+-- @field bidi.BIDI_CLASS_PDF
+bidi.BIDI_CLASS_PDF = PDF
+
+--- European_Number
+-- @field bidi.BIDI_CLASS_EN
+bidi.BIDI_CLASS_EN = EN
+
+--- European_Separator
+-- @field bidi.BIDI_CLASS_ES
+bidi.BIDI_CLASS_ES = ES
+
+--- European_Terminator
+-- @field bidi.BIDI_CLASS_ET
+bidi.BIDI_CLASS_ET = ET
+
+--- Arabic_Number
+-- @field bidi.BIDI_CLASS_AN
+bidi.BIDI_CLASS_AN = AN
+
+--- Common_Separator
+-- @field bidi.BIDI_CLASS_CS
+bidi.BIDI_CLASS_CS = CS
+
+--- Nonspacing_Mark
+-- @field bidi.BIDI_CLASS_NSM
+bidi.BIDI_CLASS_NSM = NSM
+
+--- Boundary_Neutral
+-- @field bidi.BIDI_CLASS_BN
+bidi.BIDI_CLASS_BN = BN
+
+--- Paragraph_Separator
+-- @field bidi.BIDI_CLASS_B
+bidi.BIDI_CLASS_B = B
+
+--- Segment_Separator
+-- @field bidi.BIDI_CLASS_S
+bidi.BIDI_CLASS_S = S
+
+--- White_Space
+-- @field bidi.BIDI_CLASS_WS
+bidi.BIDI_CLASS_WS = WS
+
+--- Other_Neutral
+-- @field bidi.BIDI_CLASS_ON
+bidi.BIDI_CLASS_ON = ON
+
+--- Left\_To_Right\_Isolate
+-- @field bidi.BIDI_CLASS_LRI
+bidi.BIDI_CLASS_LRI = LRI
+
+--- Right\_To_Left\_Isolate
+-- @field bidi.BIDI_CLASS_RLI
+bidi.BIDI_CLASS_RLI = RLI
+
+--- First\_Strong_Isolate
+-- @field bidi.BIDI_CLASS_FSI
+bidi.BIDI_CLASS_FSI = FSI
+
+--- Pop\_Directional_Isolate
+-- @field bidi.BIDI_CLASS_PDI
+bidi.BIDI_CLASS_PDI = PDI
 
 return bidi
 

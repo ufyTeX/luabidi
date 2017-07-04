@@ -9,7 +9,7 @@ luarocks install luabidi
 
 ## Documentation
 
-* [API Docs](http://deepakjois.github.io/luabidi/)
+* [API Docs](http://ufytex.github.io/luabidi/)
 
 ## Quickstart
 
@@ -62,5 +62,5 @@ make lint
 ## Contact
 [Open a Github issue][luabidi-issues], or email me at <deepak.jois@gmail.com>.
 
-[luabidi-issues]: https://github.com/deepakjois/luabidi/issues
+[luabidi-issues]: https://github.com/ufytex/luabidi/issues
 
