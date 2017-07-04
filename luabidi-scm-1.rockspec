@@ -11,7 +11,7 @@ description = {
 }
 dependencies = {
    "lua >= 5.2",
-   "luaucdn >= 0.0.6"
+   "luaucdn >= 0.0.8"
 }
 build = {
    type = "builtin",
