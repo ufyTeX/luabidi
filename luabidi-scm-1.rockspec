@@ -1,11 +1,11 @@
 package = "luabidi"
 version = "scm-1"
 source = {
-   url = "git://github.com/deepakjois/luabidi.git",
+   url = "git://github.com/ufytex/luabidi.git",
 }
 description = {
    summary = "Lua implementation of the Unicode Bidirectional Algorithm",
-   homepage = "https://github.com/deepakjois/luabidi",
+   homepage = "https://github.com/ufytex/luabidi",
    license = "MIT",
    maintainer = "Deepak Jois <deepak.jois@gmail.com>"
 }
